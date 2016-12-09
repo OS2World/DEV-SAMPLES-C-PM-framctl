@@ -1,0 +1,14 @@
+#include "framectl.h"
+
+BITMAP CLOSE_BUTTON_ID close.bmp
+BITMAP HELP_BUTTON_ID  help.bmp
+
+MENU FRAME_WND_ID
+BEGIN
+  SUBMENU "~File",  MI_FILE
+  BEGIN
+    MENUITEM "File ~Item",  MI_FILE_ITEM
+  END
+END
+
+
