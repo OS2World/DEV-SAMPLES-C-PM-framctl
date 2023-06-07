@@ -4,7 +4,7 @@
 #  Compile::Watcom Resource Compiler
 #  Compile::GNU C
 #  Make: nmake or GNU make
-all : framectl.exe framectl.hlp
+all : framectl.exe framectl.hlp 
 
 framectl.exe : framectl.obj framectl.res framectl.def
 	gcc -Zomf framectl.obj framectl.def -o framectl.exe

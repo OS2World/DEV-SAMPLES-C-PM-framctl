@@ -1,18 +1,24 @@
-CC=Icc
-C_SW=-G5 -O+ -W3 -C
-C_SWDEBUG =-G5 -Ti+ -W3 -C
-C_LINK=
-C_LINKDEBUG=/DE
+# nmake makefile
+#
+# Tools used:
+#  Compile::Watcom Resource Compiler
+#  Compile::GNU C
+#  Make: nmake or GNU make
+all : framectl.exe framectl.hlp
 
-FrameCtl.Exe: FrameCtl.Obj FrameCtl.Res FrameCtl.Hlp
-  ilink $(C_LINK) @FrameCtl.Lnk;
-  rc FrameCtl.Res FrameCtl.Exe
+framectl.exe : framectl.obj framectl.res framectl.def
+	gcc -Zomf framectl.obj framectl.def -o framectl.exe
+	wrc framectl.res
 
-FrameCtl.Obj: FrameCtl.C FrameCtl.H
- $(CC) $(C_SW) -FoFrameCtl.Obj FrameCtl.C
 
-FrameCtl.Res: FrameCtl.Rc FrameCtl.H help.bmp helpmrln.bmp anicat.bmp
- rc -r FrameCtl.Rc
+framectl.obj : framectl.c framectl.h
+	 gcc -Wall -Zomf -c -O2 -Wno-unused-variable framectl.c -o framectl.obj
 
-FrameCtl.Hlp: FrameCtl.Ipf
- ipfc FrameCtl.Ipf
+framectl.res : framectl.rc 
+	wrc -r framectl.rc
+
+framectl.hlp: framectl.ipf
+	wipfc -l en_US framectl.ipf
+
+clean :
+	rm -rf *exe *res *obj *hlp

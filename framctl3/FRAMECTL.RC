@@ -1,3 +1,6 @@
+/*----------------------------------
+   FRAMECTL.RC resource script file
+  ----------------------------------*/
 #include "framectl.h"
 
 BITMAP HELP_BUTTON_ID   help.bmp

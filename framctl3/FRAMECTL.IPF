@@ -25,6 +25,4 @@ and displays information about the current menu selection.
 :p.
 The fourth is the animated window control.  It is positioned below the client,
 and displays bitmap images of one of <ack> <ack> our furry friends.
-
 :euserdoc.
-

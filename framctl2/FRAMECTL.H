@@ -1,3 +1,7 @@
+/*------------------------
+   FRAMECTL.H header file
+  ------------------------*/
+
 #define FRAME_WND_ID      100
 #define CAT_SCRATCH_ID    200
 #define HELP_BUTTON_ID    300

@@ -1,19 +1,21 @@
 # DEV-SAMPLES-PM-framctl
-Samples from the OS/2 Magazine, GUI Corner column. This are the three samples from the "A Picture Perfect Control" article - October, November, December 1996 issue.
+Samples from the OS/2 Magazine, GUI Corner column. 
 
 LICENSE
 ===============
-* Freeware
+* BSD 3-Clause License
 
 COMPILE TOOLS
 ===============
-* 
+* yum install git gcc make libc-devel binutils watcom-wrc watcom-wlink-hll watcom-wipfc
  
 AUTHORS
 ===============
-* Matt Smith, Prominare Inc.                             *
+* Martin Iturbide
+* Dave Yeo
+* Matt Smith, Prominare Inc.                         
 * Mark Benge, IBM Software Solutions  
 
 LINKS
 ===============
-* http://www.edm2.com/index.php/OS/2_Magazine#Volume_3
+* 

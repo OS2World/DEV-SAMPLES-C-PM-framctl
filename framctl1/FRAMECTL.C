@@ -164,7 +164,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /******************************************************************/
       /* Process a click on the close graphic button.                   */
       /******************************************************************/
-      if ( ((USHORT)mp1 == CLOSE_BUTTON_ID) &&
+      if ( ((ULONG)mp1 == CLOSE_BUTTON_ID) &&
            (SHORT1FROMMP(mp2) == CMDSRC_PUSHBUTTON) )
       {
         /****************************************************************/
@@ -182,7 +182,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /******************************************************************/
       /* Process a click on the help graphic button.                    */
       /******************************************************************/
-      if ( (USHORT)mp1 == HELP_BUTTON_ID )
+      if ( (ULONG)mp1 == HELP_BUTTON_ID )
       {
         /****************************************************************/
         /* Invalidate the min/max control to repaint the area that the  */
@@ -242,7 +242,7 @@ int main( int argc, char* argv[] )
                                   0,
                                   &flCreateFlags,
                                   WC_STATIC,
-                                  "Frame Extensions",
+                                  (PCSZ) "Frame Extensions",
                                   (WS_VISIBLE | SS_TEXT | DT_CENTER |
                                    DT_VCENTER),
                                   (HMODULE)0L,
@@ -258,7 +258,7 @@ int main( int argc, char* argv[] )
   lClr = SYSCLR_DIALOGBACKGROUND;
   WinSetPresParam(hwndClient, PP_BACKGROUNDCOLORINDEX, 4UL, &lClr);
 
-  WinSetWindowText( hwndClient, "Frame Extensions Test" );
+  WinSetWindowText( hwndClient, (PCSZ) "Frame Extensions Test" );
 
   /**********************************************************************/
   /* Create and associate the help instance.                            */
@@ -271,9 +271,9 @@ int main( int argc, char* argv[] )
   helpInit.hmodAccelActionBarModule = 0;
   helpInit.idAccelTable             = 0;
   helpInit.idActionBar              = 0;
-  helpInit.pszHelpWindowTitle       = "Frame Extensions Sample";
+  helpInit.pszHelpWindowTitle       = (PSZ) "Frame Extensions Sample";
   helpInit.fShowPanelId             = CMIC_HIDE_PANEL_ID;
-  helpInit.pszHelpLibraryName       = "framectl.hlp";
+  helpInit.pszHelpLibraryName       = (PSZ) "framectl.hlp";
 
   hwndHelp = WinCreateHelpInstance( hAB, &helpInit );
   if ( !hwndHelp )
@@ -288,7 +288,7 @@ int main( int argc, char* argv[] )
   /**********************************************************************/
   hwndCloseBtn = WinCreateWindow( hwndFrame,
                                   WC_BUTTON,
-                                  "#200",
+                                  (PCSZ) "#200",
                                   (BS_BITMAP | BS_PUSHBUTTON | BS_NOBORDER |
                                    BS_NOPOINTERFOCUS | BS_AUTOSIZE |
                                    BS_SYSCOMMAND | WS_VISIBLE),
@@ -307,7 +307,7 @@ int main( int argc, char* argv[] )
   /**********************************************************************/
   hwndHelpBtn = WinCreateWindow( hwndFrame,
                                  WC_BUTTON,
-                                 "#300",
+                                 (PCSZ) "#300",
                                  (BS_BITMAP | BS_PUSHBUTTON | BS_NOBORDER |
                                   BS_NOPOINTERFOCUS | BS_AUTOSIZE |
                                   BS_HELP | WS_VISIBLE),
@@ -354,5 +354,3 @@ int main( int argc, char* argv[] )
   WinTerminate( hAB );
   return( FALSE );
 }
-
-

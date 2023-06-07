@@ -1,9 +1,7 @@
+;-------------------------------------
+; FRAMECTL.DEF module definition file
+;-------------------------------------
 
 NAME            FrameCtl WINDOWAPI NEWFILES
 
-STACKSIZE	16384
-
-PROTMODE
-
-EXETYPE		OS2
-
+DESCRIPTION     '@#OS2World:1.01#@##1## 07 Jun 2023 20:00:00     ARCAOS-507::::::v1.01@@C frame controls sample'

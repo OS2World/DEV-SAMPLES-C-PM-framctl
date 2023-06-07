@@ -1,3 +1,6 @@
+/*----------------------------------
+   FRAMECTL.RC resource script file
+  ----------------------------------*/
 #include "framectl.h"
 
 BITMAP CLOSE_BUTTON_ID close.bmp
@@ -11,4 +14,3 @@ BEGIN
   END
 END
 
-

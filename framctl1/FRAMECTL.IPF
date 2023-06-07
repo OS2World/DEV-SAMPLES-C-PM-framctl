@@ -19,4 +19,3 @@ when the button is clicked.
 If neither the BS_SYSCOMMAND nor the BS_HELP style is included, a
 WM_COMMAND message is generated.
 :euserdoc.
-

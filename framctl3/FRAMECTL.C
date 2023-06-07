@@ -54,8 +54,8 @@
 /*            LONG CalcSeparatorWidth( HWND hWnd )                      */
 /*            int main(int argc, char* argv[] )                         */
 /*                                                                      */
-/* Copyright ¸ International Business Machines Corp., 1991,1996.        */
-/* Copyright ¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
+/* Copyright Â¸ International Business Machines Corp., 1991,1996.        */
+/* Copyright Â¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
 /*                                                                      */
 /************************************************************************/
 
@@ -256,7 +256,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /* Query the default tracking information for the standard frame  */
       /* control.                                                       */
       /******************************************************************/
-      BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 );
+      // BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 );
       PTRACKINFO pTrackInfo = (PTRACKINFO)mp2;
 
       /******************************************************************/
@@ -349,7 +349,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
         /******************************************************************/
         /* Process WM_PAINT to draw the separator bar.                    */
         /******************************************************************/
-        USHORT i;
+        ULONG i;
         POINTL start[5],
                end[5];
 
@@ -360,7 +360,8 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
         /******************************************************************/
         /* Allow default proc to draw all of the frame.                   */
         /******************************************************************/
-        BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 );
+        // BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 ); // Commented since it gives a compile warning with gcc
+        DefFrameWndProc( hWnd, msg, mp1, mp2 ); // To keep the app working after commenting BOOL rc=
 
         /******************************************************************/
         /* Get presentation space handle for drawing.                     */
@@ -520,7 +521,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /******************************************************************/
       /* Process a click on the help graphic button.                    */
       /******************************************************************/
-      if ( (USHORT)mp1 == HELP_BUTTON_ID )
+      if ( (ULONG)mp1 == HELP_BUTTON_ID )
       {
         /****************************************************************/
         /* Display the help panel for this sample.                      */
@@ -541,9 +542,9 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
                               NULLHANDLE,
                               SHORT1FROMMP(mp1),
                               20,
-                              buffer ) )
+                              (PSZ) buffer ) )
           {
-            WinSetWindowText( hwndStaticText, buffer );
+            WinSetWindowText( hwndStaticText, (PCSZ) buffer );
           }
           else
             WinSetWindowText( hwndStaticText, NULL );
@@ -556,10 +557,10 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
           HWND hwndOwner = WinQueryWindow( (HWND)mp2, QW_OWNER );
           if (hwndOwner)
           {
-            WinQueryClassName( hwndOwner, 20, buffer );
+            WinQueryClassName( hwndOwner, 20, (PCH) buffer );
             if ( !memcmp( buffer, "#4", 3 ) )
             {
-              SHORT sItem = (SHORT)WinSendMsg( hwndOwner, MM_QUERYSELITEMID,
+              LONG sItem = (LONG)WinSendMsg( hwndOwner, MM_QUERYSELITEMID,
                                                0, 0 );
               if (( sItem == MIT_ERROR) || ( sItem == MIT_NONE ))
                 WinSetWindowText( hwndStaticText, NULL );
@@ -835,15 +836,15 @@ int main( int argc, char* argv[] )
   LONG     lBgnColor;              /* Background Color Holder           */
   HWND     hwndHelp;               /* Help Instance Handle              */
   HELPINIT helpInit;               /* Help Instance Structure           */
-  LBOXINFO lboxinfo;               /* List Box Info Structure           */
+  //LBOXINFO lboxinfo;               /* List Box Info Structure           */
   BOOL     bWarpV4 = FALSE;        /* OS/2 Warp V4.0 indicator          */
   ULONG    ulVersion;              /* Version Return Variable           */
-  LONG     lCount,
-           lWidth,
+  //LONG     lCount,
+  LONG     lWidth,
            lHeight;
   ULONG    i;
-  PSZ      itemsArray[] = { "Blue Text",  "White Text", "Red Text",
-                            "Green Text", "Black Text" };
+  PSZ      itemsArray[] = { (PSZ) "Blue Text", (PSZ) "White Text", (PSZ) "Red Text",
+                           (PSZ) "Green Text", (PSZ) "Black Text" };
 
   /**********************************************************************/
   /* Initialize the program for PM, create the message queue, and set   */
@@ -864,7 +865,7 @@ int main( int argc, char* argv[] )
                                   0,
                                   &flCreateFlags,
                                   WC_STATIC,
-                                  "Frame Extensions",
+                                  (PCSZ) "Frame Extensions",
                                   (WS_VISIBLE | SS_TEXT | DT_CENTER |
                                    DT_VCENTER),
                                   (HMODULE)0L,
@@ -882,7 +883,7 @@ int main( int argc, char* argv[] )
   lBgnColor = SYSCLR_DIALOGBACKGROUND;
   WinSetPresParam( hwndClient, PP_BACKGROUNDCOLORINDEX, 4UL, &lBgnColor );
 
-  WinSetWindowText( hwndClient, "Frame Extensions Test" );
+  WinSetWindowText( hwndClient, (PCSZ) "Frame Extensions Test" );
 
   /**********************************************************************/
   /* Create and associate the help instance.                            */
@@ -895,9 +896,9 @@ int main( int argc, char* argv[] )
   helpInit.hmodAccelActionBarModule = 0;
   helpInit.idAccelTable             = 0;
   helpInit.idActionBar              = 0;
-  helpInit.pszHelpWindowTitle       = "Frame Extensions Sample";
+  helpInit.pszHelpWindowTitle       = (PSZ) "Frame Extensions Sample";
   helpInit.fShowPanelId             = CMIC_HIDE_PANEL_ID;
-  helpInit.pszHelpLibraryName       = "framectl.hlp";
+  helpInit.pszHelpLibraryName       = (PSZ) "framectl.hlp";
 
   hwndHelp = WinCreateHelpInstance( hAB, &helpInit );
   if ( !hwndHelp )
@@ -923,7 +924,7 @@ int main( int argc, char* argv[] )
   /**********************************************************************/
   hwndHelpBtn = WinCreateWindow( hwndFrame,
                                  WC_BUTTON,
-                                 ( (bWarpV4) ? "#400" : "#300" ),
+                                 ( (PCSZ) ((bWarpV4) ? "#400" : "#300" )),
                                  (BS_BITMAP | BS_PUSHBUTTON | BS_NOBORDER |
                                   BS_NOPOINTERFOCUS | BS_AUTOSIZE |
                                   BS_HELP | WS_VISIBLE),
@@ -994,7 +995,7 @@ int main( int argc, char* argv[] )
   /**********************************************************************/
   /* Register the animated control window's class.                      */
   /**********************************************************************/
-  if ( !WinRegisterClass(hAB, "Animate.Window", (PFNWP)AnimateWndProc,
+  if ( !WinRegisterClass(hAB, (PCSZ) "Animate.Window", (PFNWP)AnimateWndProc,
              CS_SYNCPAINT | CS_MOVENOTIFY | CS_SIZEREDRAW, 4UL) )
      return(0);
 
@@ -1003,7 +1004,7 @@ int main( int argc, char* argv[] )
   /* extension below the client.                                        */
   /**********************************************************************/
   hwndAnimate = WinCreateWindow( hwndFrame,
-                                 "Animate.Window",
+                                 (PCSZ) "Animate.Window",
                                  (PSZ)NULL,
                                  WS_VISIBLE,
                                  0L, 0L, -1L, -1L,

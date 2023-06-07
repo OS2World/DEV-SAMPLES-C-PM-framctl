@@ -209,7 +209,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /* Query the default tracking information for the standard frame  */
       /* control.                                                       */
       /******************************************************************/
-      BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 );
+      // BOOL rc = (BOOL)DefFrameWndProc( hWnd, msg, mp1, mp2 );
       PTRACKINFO pTrackInfo = (PTRACKINFO)mp2;
 
       /******************************************************************/
@@ -242,7 +242,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
         /****************************************************************/
         /* Process the Exit request.                                    */
         /****************************************************************/
-        if ( (USHORT)mp1 == MI_FILE_EXIT )
+        if ( (ULONG)mp1 == MI_FILE_EXIT )
         {
           /**************************************************************/
           /* Close the frame extensions sample application.             */
@@ -255,7 +255,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
           /**************************************************************/
           /* Place holder for next issue.                               */
           /**************************************************************/
-          if ( (USHORT)mp1 == MI_CAT_TBD )
+          if ( (ULONG)mp1 == MI_CAT_TBD )
           {
             /************************************************************/
             /*                                                          */
@@ -294,7 +294,7 @@ MRESULT EXPENTRY FrameWndProc( HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
       /******************************************************************/
       /* Process a click on the help graphic button.                    */
       /******************************************************************/
-      if ( (USHORT)mp1 == HELP_BUTTON_ID )
+      if ( (ULONG)mp1 == HELP_BUTTON_ID )
       {
         /****************************************************************/
         /* Display the help panel for this sample.                      */
@@ -389,15 +389,15 @@ int main( int argc, char* argv[] )
   LONG     lBgnColor;              /* Background Color Holder           */
   HWND     hwndHelp;               /* Help Instance Handle              */
   HELPINIT helpInit;               /* Help Instance Structure           */
-  LBOXINFO lboxinfo;               /* List Box Info Structure           */
+  // LBOXINFO lboxinfo;               /* List Box Info Structure           */
   BOOL     bWarpV4 = FALSE;        /* OS/2 Warp V4.0 indicator          */
   ULONG    ulVersion;              /* Version Return Variable           */
-  LONG     lCount,
-           lWidth,
+  // LONG     lCount,
+  LONG     lWidth,
            lHeight;
   ULONG    i;
-  PSZ      itemsArray[] = { "Blue Text",  "White Text", "Red Text",
-                            "Green Text", "Black Text" };
+  PSZ      itemsArray[] = { (PSZ)"Blue Text",   (PSZ)"White Text",  (PSZ)"Red Text",
+                             (PSZ)"Green Text",  (PSZ)"Black Text" };
 
   /**********************************************************************/
   /* Initialize the program for PM, create the message queue, and set   */
@@ -418,7 +418,7 @@ int main( int argc, char* argv[] )
                                   0,
                                   &flCreateFlags,
                                   WC_STATIC,
-                                  "Frame Extensions",
+                                  (PSZ)"Frame Extensions",
                                   (WS_VISIBLE | SS_TEXT | DT_CENTER |
                                    DT_VCENTER),
                                   (HMODULE)0L,
@@ -436,7 +436,7 @@ int main( int argc, char* argv[] )
   lBgnColor = SYSCLR_DIALOGBACKGROUND;
   WinSetPresParam( hwndClient, PP_BACKGROUNDCOLORINDEX, 4UL, &lBgnColor );
 
-  WinSetWindowText( hwndClient, "Frame Extensions Test" );
+  WinSetWindowText( hwndClient, (PSZ)"Frame Extensions Test" );
 
   /**********************************************************************/
   /* Create and associate the help instance.                            */
@@ -449,9 +449,9 @@ int main( int argc, char* argv[] )
   helpInit.hmodAccelActionBarModule = 0;
   helpInit.idAccelTable             = 0;
   helpInit.idActionBar              = 0;
-  helpInit.pszHelpWindowTitle       = "Frame Extensions Sample";
+  helpInit.pszHelpWindowTitle       = (PSZ)"Frame Extensions Sample";
   helpInit.fShowPanelId             = CMIC_HIDE_PANEL_ID;
-  helpInit.pszHelpLibraryName       = "framectl.hlp";
+  helpInit.pszHelpLibraryName       = (PSZ)"framectl.hlp";
 
   hwndHelp = WinCreateHelpInstance( hAB, &helpInit );
   if ( !hwndHelp )
@@ -477,7 +477,7 @@ int main( int argc, char* argv[] )
   /**********************************************************************/
   hwndHelpBtn = WinCreateWindow( hwndFrame,
                                  WC_BUTTON,
-                                 ( (bWarpV4) ? "#400" : "#300" ),
+                                 ( (PCSZ) ((bWarpV4) ? "#400" : "#300" )),
                                  (BS_BITMAP | BS_PUSHBUTTON | BS_NOBORDER |
                                   BS_NOPOINTERFOCUS | BS_AUTOSIZE | BS_HELP |
                                   WS_CLIPSIBLINGS | WS_VISIBLE),
@@ -508,11 +508,10 @@ int main( int argc, char* argv[] )
     return( TRUE );
 
 #if 0
-  lboxinfo.lItemIndex = LIT_END;
-  lboxinfo.ulItemCount = 5;
+  //lboxinfo.lItemIndex = LIT_END;
+  //lboxinfo.ulItemCount = 5;
 
-  lCount = (LONG)WinSendMsg( hwndComboBox, LM_INSERTMULTITEMS,
-                             &lboxinfo, itemsArray[0] );
+  // lCount = (LONG)WinSendMsg( hwndComboBox, LM_INSERTMULTITEMS, &lboxinfo, itemsArray[0] );
 #endif
 
   /**********************************************************************/
